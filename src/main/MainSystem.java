@@ -1,6 +1,7 @@
 package main;
 
-public class System {
+public class MainSystem {
+
   public void createUser() {
     // hoge
   }
