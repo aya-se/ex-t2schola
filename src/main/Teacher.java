@@ -1,8 +1,12 @@
 package main;
 
-public class Teacher extends User {
+import java.util.HashMap;
+import java.util.Map;
+
+public class Teacher extends User implements ExternalSystemObserver {
   public int grade;
   public String belongs;
+  public Map<String, CourseTeacher> courses = new HashMap<>();
 
   public Teacher(String userID, String userName, int grade, String belongs) {
     super(userID, userName);
@@ -13,8 +17,15 @@ public class Teacher extends User {
   }
 
   public void handleCource(String courseID) {
+    Course cou = MainSystem.courses.get(courseID);
     CourseTeacher ct = new CourseTeacher(this.userID, courseID);
+    this.courses.put(courseID, ct);
+    cou.courseTeachers.put(userID, ct);
     // デバッグ用
-    System.out.println(this.userName + " attended the course " + courseID + ".");
+    System.out.println(this.userName + " handled the course " + courseID + ".");
+  }
+
+  public void update(ExternalSystem subject) {
+    // hoge
   }
 }
