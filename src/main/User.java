@@ -7,6 +7,6 @@ public abstract class User {
   protected User(String userID, String userName) {
     this.userID = userID;
     this.userName = userName;
-    MainSystem.users.put(this.userID, this);
+    Database.users.put(this.userID, this);
   }
 }

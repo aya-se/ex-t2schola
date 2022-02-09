@@ -1,17 +1,11 @@
 package main;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class Course {
+public class Course implements DatabaseObserver {
   public String courseID;
   public String courseName;
   public int credits;
   public int quarter;
   public boolean isPublic;
-  public Lecture[] lectures;
-  public Map<String, CourseStudent> courseStudents = new HashMap<>();
-  public Map<String, CourseTeacher> courseTeachers = new HashMap<>();
 
   public Course(String courseID, String courseName, int credits, int quarter) {
     this.courseID = courseID;
@@ -19,14 +13,44 @@ public class Course {
     this.credits = credits;
     this.quarter = quarter;
     this.isPublic = false;
-    this.lectures = new Lecture[14];
-    for (int i = 0; i < 14; i++) {
-      // Lecture lec = new Lecture(i + 1, "第" + (i + 1) + "回講義", "2022/01/01");
-      Exercise exe = new Exercise(i + 1, "第" + (i + 1) + "回講義", "2022/01/01");
-      this.lectures[i] = exe;
+    Database.courses.put(courseID, this);
+
+    // デフォルトで各講義を追加
+    for (int i = 1; i <= 14; i++) {
+      Lecture newData = new Lecture(courseID, i, "新しい講義", "2022-01-01", "授業");
     }
-    MainSystem.courses.put(this.courseID, this);
-    // デバッグ用
-    System.out.println("New Course " + this.courseName + "(" + this.courseID + ") was created!");
+
+  }
+
+  public void getCourseStudents() {
+    System.out.println(this.courseName + "(" + this.courseID + ")の受講生一覧");
+    for (CourseStudent v : Database.courseStudents) {
+      if (v.courseID.equals(this.courseID))
+        System.out.println("- " + v.userID);
+    }
+  }
+
+  public void getCourseTeachers() {
+    System.out.println(this.courseName + "(" + this.courseID + ")の担当教員一覧");
+    for (CourseTeacher v : Database.courseTeachers) {
+      if (v.courseID.equals(this.courseID))
+        System.out.println("- " + v.userID);
+    }
+  }
+
+  public void getCourseLectures() {
+    System.out.println(this.courseName + "(" + this.courseID + ")の各講義");
+    for (Lecture v : Database.lectures) {
+      if (v.courseID.equals(this.courseID))
+        System.out.println("- 第" + v.lectureID + "回 (" + v.date + "): " + v.lectureName + "(" + v.type + ")");
+    }
+  }
+
+  public void update() {
+    Course newData = Database.courses.get(this.courseID);
+    this.courseName = newData.courseName;
+    this.credits = newData.credits;
+    this.quarter = newData.quarter;
+    this.isPublic = newData.isPublic;
   }
 }

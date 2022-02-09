@@ -1,13 +1,18 @@
 package main;
 
-public abstract class Lecture {
+public class Lecture {
+  public String courseID;
   public int lectureID;
   public String lectureName;
   public String date;
+  public String type;
 
-  protected Lecture(int lectureID, String lectureName, String date) {
+  public Lecture(String courseID, int lectureID, String lectureName, String date, String type) {
+    this.courseID = courseID;
     this.lectureID = lectureID;
     this.lectureName = lectureName;
     this.date = date;
+    this.type = type;
+    Database.lectures.add(this);
   }
 }
