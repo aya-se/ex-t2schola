@@ -15,21 +15,22 @@ public class Database {
   public static ArrayList<CourseStudent> courseStudents = new ArrayList<>();
   public static ArrayList<CourseTeacher> courseTeachers = new ArrayList<>();
   // DatabaseObserver一覧
-  private ArrayList<DatabaseObserver> observers = new ArrayList<>();
+  private static ArrayList<DatabaseObserver> observers = new ArrayList<>();
 
-  public void addObserver(DatabaseObserver observer) {
+  public static void addObserver(DatabaseObserver observer) {
     observers.add(observer);
   }
 
-  public void deleteObserver(DatabaseObserver observer) {
+  public static void deleteObserver(DatabaseObserver observer) {
     observers.remove(observer);
   }
 
-  public void notifyObservers() {
+  public static void notifyObservers() {
     Iterator iterator = observers.iterator();
     while (iterator.hasNext()) {
       DatabaseObserver observer = (DatabaseObserver) iterator.next();
       observer.update();
+      System.out.println("notifyObservers : " + observer.getClass());
     }
   }
 }

@@ -9,6 +9,7 @@ public class Teacher extends User implements DatabaseObserver {
     this.grade = grade;
     this.belongs = belongs;
     Database.teachers.put(this.userID, this);
+    Database.addObserver(this);
     // デバッグ用
     System.out.println("New Teacher " + this.userName + " was created!");
   }
@@ -21,6 +22,12 @@ public class Teacher extends User implements DatabaseObserver {
         System.out.println("- " + v.courseID);
       }
     }
+  }
+
+  public void getTeacherInfo() {
+    System.out.println(this.userName + "(" + this.userID + ")の教員情報");
+    System.out.println("役職 : " + this.grade);
+    System.out.println("所属 : " + this.belongs);
   }
 
   public void handleCource(String courseID) {
