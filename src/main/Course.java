@@ -14,7 +14,7 @@ public class Course implements DatabaseObserver {
     this.quarter = quarter;
     this.isPublic = false;
     Database.courses.put(courseID, this);
-
+    Database.addObserver(this);
     // デフォルトで各講義を追加
     for (int i = 1; i <= 14; i++) {
       Lecture newData = new Lecture(courseID, i, "新しい講義", "2022-01-01", "授業");
@@ -36,6 +36,13 @@ public class Course implements DatabaseObserver {
       if (v.courseID.equals(this.courseID))
         System.out.println("- " + v.userID);
     }
+  }
+
+  public void getCourseInfo() {
+    System.out.println(this.courseName + "(" + this.courseID + ")の講義情報");
+    System.out.println("単位数 : " + this.credits);
+    System.out.println("開講時期 : " + this.quarter + "Q");
+    System.out.println("公開時期 : " + this.isPublic);
   }
 
   public void getCourseLectures() {
